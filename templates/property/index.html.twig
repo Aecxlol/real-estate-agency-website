@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste des biens{% endblock %}
+
+{% block pageTitle %}<h1>Liste des biens de l'agence</h1>{% endblock %}
+{% block pageDescription %}
+    <p>Vous pouvez consulter et acheter les biens que nous proposons</p>
+{% endblock %}
+
+{% block body %}
+    {% for property in properties %}
+        <h1>{{ property.title }}</h1>
+    {% endfor %}
+{% endblock %}
