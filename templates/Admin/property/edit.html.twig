@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Éditer le bien{% endblock %}
+
+{% block pageTitle %}<h1>ADMINISTRATION</h1>{% endblock %}
+
+{% block pageDescription %}Éditer les biens{% endblock %}
+
+{% block body %}
+    {{ include('admin/property/_form.html.twig', {form: form, button: 'Éditer'}) }}
+{% endblock %}
