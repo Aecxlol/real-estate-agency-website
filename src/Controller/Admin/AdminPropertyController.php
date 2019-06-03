@@ -78,6 +78,7 @@ class AdminPropertyController extends AbstractController
         //voit si la requête est de type post ou get et il va use les setter de notre entité property pour soumettre les champs de notre form
         $form->handleRequest($request);
 
+        //isValid() prend en compte nos Assert dans l'entité
         if($form->isSubmitted() && $form->isValid())
         {
             $this->manager->flush();

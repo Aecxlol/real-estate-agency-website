@@ -4,10 +4,13 @@ namespace App\Entity;
 
 use Cocur\Slugify\Slugify;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
-
+//unique entity permet de faire en sorte qu'il y ait pas de doublon de titre dans la DB
 /**
  * @ORM\Entity(repositoryClass="App\Repository\PropertyRepository")
+ * @UniqueEntity("title")
  */
 class Property
 {
@@ -24,6 +27,7 @@ class Property
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\Length(min=4, max=255)
      */
     private $title;
 
@@ -34,6 +38,7 @@ class Property
 
     /**
      * @ORM\Column(type="integer")
+     * @Assert\Range(min=10, max=400)
      */
     private $surface;
 
@@ -69,6 +74,7 @@ class Property
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\Regex("/^[0-9]{5}$/")
      */
     private $postalCode;
 
