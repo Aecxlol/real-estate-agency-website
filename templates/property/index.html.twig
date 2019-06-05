@@ -8,7 +8,33 @@
 {% endblock %}
 
 {% block body %}
-    {% for property in properties %}
-        <h1>{{ property.title }}</h1>
-    {% endfor %}
+    <div class="jumbotron">
+        {{ form_start(form) }}
+            <div class="form-row align-items-end">
+                <div class="col">
+                    {{ form_row(form.minSurface) }}
+                </div>
+                <div class="col">
+                    {{ form_row(form.maxPrice) }}
+                </div>
+                <div class="col">
+                    <div class="form-group">
+                        <button class="btn btn-primary">Rechercher</button>
+                    </div>
+                </div>
+            </div>
+        {{ form_end(form) }}
+    </div>
+    <div class="row">
+        {% for property in properties %}
+        
+            <div class="col-md-4">
+                    {% include 'property/property.html.twig' %}
+            </div>
+        
+        {% endfor %}
+    </div>
+    <div class="pagination">
+        {{ knp_pagination_render(properties) }}
+    </div>
 {% endblock %}

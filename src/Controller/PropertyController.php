@@ -3,7 +3,11 @@
 namespace App\Controller;
 
 use App\Entity\Property;
+use App\Entity\PropertySearch;
+use App\Form\PropertySearchType;
 use App\Repository\PropertyRepository;
+use Knp\Component\Pager\PaginatorInterface;
+use Symfony\Component\HttpFoundation\Request;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -29,13 +33,23 @@ class PropertyController extends AbstractController
     /**
      * @Route("/propertieslist", name="property_index")
      */
-    public function index()
+    public function index(PaginatorInterface $paginator, Request $request)
     {
-        $properties = $this->repository->findAllVisible();//utilisation  de notre fonction créée dans le repo
+        $search = new PropertySearch();
+        $form = $this->createForm(PropertySearchType::class, $search);
+        $form->handleRequest($request);
 
+        $properties = $paginator->paginate(
+            $this->repository->findAllVisibleQuery($search),//utilisation  de notre fonction créée dans le repo,
+            $request->query->getInt('page', 1),//si il n'y a pas de page de définie, ce sera la 1 par défaut
+            12
+        );
+
+        //current_item pour récup la current page du menu
         return $this->render('property/index.html.twig', [
             'current_item' => 'properties',
-            'properties' => $properties
+            'properties' => $properties,
+            'form' => $form->createView()
         ]);
     }
 
