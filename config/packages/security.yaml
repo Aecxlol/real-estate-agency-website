@@ -1,15 +1,17 @@
 security:
     # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
+    # clé providers : Comment on va récupérer les users et les authentification
     providers:
-        users:
+        users: #on peut mettre à la place in_database
             entity:
-                class: 'App\Entity\User'
-                property: username
+                class: 'App\Entity\User' #classe qui sert à l'auth
+                property: username 
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
         main:
+            #chaque personna est considérée comme anonyme
             anonymous: true
             logout:
                 path: logout
@@ -22,6 +24,7 @@ security:
             # switch_user: true
 
             form_login:
+                #chemin utilisé pour faire de la vérif (nom de la route)
                 check_path: login
 
 

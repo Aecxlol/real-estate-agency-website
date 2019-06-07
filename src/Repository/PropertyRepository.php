@@ -42,6 +42,19 @@ class PropertyRepository extends ServiceEntityRepository
                 ->andWhere('p.surface < :minSurface')
                 ->setParameter('minSurface', $search->getMinSurface());
         }
+
+        //si la taille de mon tab getOptions est > 0 ça veut dire qu'on a des options
+        if($search->getOptions()->count() > 0)
+        {
+            $key = 0;
+            foreach ($search->getOptions() as $option) {
+                $key++;
+                $query = $query
+                    ->andWhere(":option MEMBER OF p.options")
+                    ->setParameter("option", $option);
+            }
+        }
+
         return $query->getQuery();//récupère la requête
     }
 

@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Éditer l'option'{% endblock %}
+
+{% block pageTitle %}<h1>ADMINISTRATION</h1>{% endblock %}
+
+{% block pageDescription %}Éditer l'option{% endblock %}
+
+{% block body %}
+    {{ include('admin/option/_form.html.twig', {form: form, button: 'Éditer'}) }}
+{% endblock %}

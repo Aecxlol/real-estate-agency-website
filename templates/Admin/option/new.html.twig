@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Ajouter une option{% endblock %}
+
+{% block pageTitle %}<h1>ADMINISTRATION</h1>{% endblock %}
+
+{% block pageDescription %}Ajouter une nouvelle option{% endblock %}
+
+{% block body %}
+    {{ include('admin/option/_form.html.twig', {form: form}) }}
+{% endblock %}

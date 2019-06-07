@@ -77,6 +77,7 @@ class User implements UserInterface, Serializable
     }
 
     //--- FONCTION DE L'INTERFACE Serializable ---//
+    // pour que l'user soit sauvegardé au niveau de la session on doit use cet interface
 
     //transforme notre objet en chaine
     //on renvoit les infos qu'on souhaite conserver en session de notre user

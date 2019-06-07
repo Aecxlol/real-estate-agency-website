@@ -2,9 +2,11 @@
 
 namespace App\Form;
 
+use App\Entity\Option;
 use App\Entity\Property;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
@@ -23,6 +25,11 @@ class PropertyType extends AbstractType
             ->add('price')
             ->add('heat', ChoiceType::class, [
                 'choices' => $this->getChoices()
+            ])
+            ->add('options', EntityType::class, [
+                'class' => Option::class, //classe qui doit être ciblé (celle qui représente une option)
+                'choice_label' => 'name', //propriété utilisé pour le label
+                'multiple' => true // pour avoir le choix de mettre plusieurs options
             ])
             ->add('city')
             ->add('postalCode')
