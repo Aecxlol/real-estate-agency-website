@@ -8,6 +8,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 
@@ -28,8 +29,12 @@ class PropertyType extends AbstractType
             ])
             ->add('options', EntityType::class, [
                 'class' => Option::class, //classe qui doit être ciblé (celle qui représente une option)
+                'required' => false,
                 'choice_label' => 'name', //propriété utilisé pour le label
                 'multiple' => true // pour avoir le choix de mettre plusieurs options
+            ])
+            ->add('imageFile', FileType::class, [
+                'required' => false
             ])
             ->add('city')
             ->add('postalCode')

@@ -9,7 +9,9 @@ use Symfony\Component\HttpFoundation\Request;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Liip\ImagineBundle\Imagine\Cache\CacheManager;//permet de manipuler les infos en cache
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Vich\UploaderBundle\Templating\Helper\UploaderHelper;
 
 class AdminPropertyController extends AbstractController
 {
@@ -67,11 +69,11 @@ class AdminPropertyController extends AbstractController
         ]);
     }
 
-    //on accepte que les method de stype get et post pour l'adresse de cette route
+    //on accepte que les method de type get et post pour l'adresse de cette route
     /** 
      * @Route("/admin/property/{id}", name="admin_property_edit", methods="GET||POST")
     */
-    public function edit(Property $property, Request $request)
+    public function edit(Property $property, Request $request/*, CacheManager $cacheManager, UploaderHelper $uploaderHelper*/)
     {
         $form = $this->createForm(PropertyType::class, $property);
 
@@ -81,6 +83,13 @@ class AdminPropertyController extends AbstractController
         //isValid() prend en compte nos Assert dans l'entité
         if($form->isSubmitted() && $form->isValid())
         {
+            /*-- Une des méthodes pour supprimer les images du cache car elles sont gardées en cache même si on delete un article --
+            //si c'est une instance de uploadedFile au lieu de file ça veut dire qu'un fichier a été uploadé
+            if($property->getImageFile() instanceof UploadedFile)
+            {
+                //on donne le chemin de l'image dynamiquement à la fonction remove en appelant la fonction asset (chemin pour la propriété, champs imageFile)
+                $cacheManager->remove($uploaderHelper->asset($property, 'imageFile'));
+            }--*/
             $this->manager->flush();
             $this->addFlash('success', 'Le bien a bien été édité');
             return $this->redirectToRoute('admin_property_index');

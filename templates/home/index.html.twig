@@ -13,6 +13,14 @@
         {% for property in properties %}
             <div class="col-3">
                 <div class="card">
+                    {% if property.filename %}
+                    {# On aurait pu utiliser /images/properties/{{ property.filename }} #}
+                    {# 1er param l'entité, 2ème param le nom de la propriété dans notre entité #}
+                    {# ajout du filtre pour réduire la taille de l'image en lui donnant le nom du filtre qui se trouve dans le fichier de config #}
+                    <img src="{{ vich_uploader_asset(property, 'imageFile') | imagine_filter('thumb') }}" alt="card-img-top" style="width: 100%; height: auto;">
+                    {% else %}
+                        <img src="{{ 'images/properties/lol.jpg' | imagine_filter('thumb') }}" alt="card-img-top" style="width: 100%; height: auto;">
+                    {% endif %}
                     <div class="card-body">
                         <h5 class="card-title">
                             <a href="{{ path('property_show', {id: property.id, slug: property.slug}) }}" target="_blank">{{ property.title }}</a>
