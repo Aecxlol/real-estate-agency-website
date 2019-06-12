@@ -5,13 +5,14 @@ namespace App\Controller\Admin;
 use App\Entity\Property;
 use App\Form\PropertyType;
 use App\Repository\PropertyRepository;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Liip\ImagineBundle\Imagine\Cache\CacheManager;//permet de manipuler les infos en cache
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Vich\UploaderBundle\Templating\Helper\UploaderHelper;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Liip\ImagineBundle\Imagine\Cache\CacheManager;//permet de manipuler les infos en cache
 
 class AdminPropertyController extends AbstractController
 {
@@ -33,9 +34,13 @@ class AdminPropertyController extends AbstractController
     /** 
      * @Route("/admin", name="admin_property_index")
     */
-    public function index()
+    public function index(PaginatorInterface $paginator, Request $request)
     {
-        $properties = $this->repository->findAll();
+        $properties = $paginator->paginate(
+            $this->repository->findAll(),
+            $request->query->getInt('page', 1),
+            8
+        );
 
         return $this->render('admin/property/index.html.twig', [
             'properties' => $properties
